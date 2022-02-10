@@ -2,9 +2,7 @@
 
 Data from [kaggle](https://www.kaggle.com/c/nomad2018-predict-transparent-conductors).
 
-##
-
-Setup:
+## Setup:
 
 ```bash
 conda create --name ml_project python=3.7
