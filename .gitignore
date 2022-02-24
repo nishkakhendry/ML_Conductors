@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+nomad2018-predict-transparent-conductors/train_extrainfo.csv

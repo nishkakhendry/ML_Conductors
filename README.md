@@ -10,6 +10,8 @@ conda activate ml_project
 pip install -r requirements.txt
 ```
 
+> Run `visualization_dataprep.ipynb` to get `train_extrainfo.csv` in the data folder. It's not commited as it's huge (600MB+). i/o examples are in the same file.
+
 ## Notes
 
 - the magnitude of each vector (in the xyz file) is the `lattice_vector_1_ang` and so on. Magnitude refers to the vector length
