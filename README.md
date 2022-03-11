@@ -10,7 +10,7 @@ conda activate ml_project
 pip install -r requirements.txt
 ```
 
-> Run `visualization_dataprep.ipynb` to get `train_extrainfo.csv` in the data folder. It's not commited as it's huge (600MB+). i/o examples are in the same file.
+> Run `visualization_dataprep.ipynb` to get `train_extrainfo.csv` and `test_extrainfo.csv` in the data folder. It's not commited as it's huge (600MB+). i/o examples are in the same file.
 
 ## Notes
 
