@@ -15,7 +15,7 @@ class PrePro:
         self.compute_integral()
 
     def compute_integral(self):
-        dxyz = np.arange(-5, 6) / 11. / float(self.bin_num)
+        dxyz = np.arange(-5, 6) / (11. * self.bin_num)
         # x coordinate of subpixel
         sub_cubex = np.tile(dxyz.reshape((11, 1, 1)), (1, 11, 11))
         # y coordinate of subpixel
