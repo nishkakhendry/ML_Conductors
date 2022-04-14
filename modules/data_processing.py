@@ -30,14 +30,16 @@ def make_Xy():
     label_encoder = LabelEncoder()
     integer_encoded = label_encoder.fit_transform(df['spacegroup'])
     integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
-
+    # print("-----",integer_encoded)
     onehot_encoder = OneHotEncoder(sparse=False)
     onehot_encoded = onehot_encoder.fit_transform(integer_encoded)
 
     # construct X
     X = np.zeros((3000, 0))
-
+    # print("-----",onehot_encoded)
     X = add_feat(X, onehot_encoded)
+
+    print(X)
 
     for col_name in ['percent_atom_in', 'percent_atom_ga', 'percent_atom_al']:
         X = add_feat(X, df[col_name]*df['number_of_total_atoms'])
@@ -49,6 +51,7 @@ def make_Xy():
                      'lattice_angle_gamma_degree', 'lattice_angle_beta_degree', 'lattice_angle_alpha_degree']:
         X = add_feat(X, df[col_name])
 
+    # TODO: not adding this for now
     for col_name in ['lattice_angle_gamma_degree', 'lattice_angle_beta_degree', 'lattice_angle_alpha_degree']:
         X = add_feat(X, np.cos(np.pi/180.0*df[col_name]))
     for col_name in ['lattice_angle_gamma_degree', 'lattice_angle_beta_degree', 'lattice_angle_alpha_degree']:
