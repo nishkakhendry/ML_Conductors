@@ -3,18 +3,19 @@ import numpy as np
 
 class PrePro:
     def __init__(self) -> None:
-        self.nb = 12  # number of bins in each cube axis
+        self.bin_num = 12  # number of bins in each cube axis
         self.sigma = 0.05  # size of kernel around each atom
-        self.b = (np.arange(self.nb) + 0.5) / float(self.nb)  # binning vector
-        self.atom_list = ['Ga', 'Al', 'In', 'O']
-        self.integral = np.tile(np.nan, (200, 200, 200))
+        self.bin_vec = (np.arange(self.bin_num) + 0.5) / \
+            float(self.bin_num)  # binning vector
+        self.list_atoms = ['Ga', 'Al', 'In', 'O']
+        self.integral_arr = np.tile(np.nan, (200, 200, 200))
         self.shift_array = np.array(
             [[sx, sy, sz] for sx in [-1, 0, 1] for sy in [-1, 0, 1] for sz in [-1, 0, 1]])
         # init integral matrix
         self.compute_integral()
 
     def compute_integral(self):
-        dxyz = np.arange(-5, 6) / 11. / float(self.nb)
+        dxyz = np.arange(-5, 6) / 11. / float(self.bin_num)
         # x coordinate of subpixel
         sub_cubex = np.tile(dxyz.reshape((11, 1, 1)), (1, 11, 11))
         # y coordinate of subpixel
@@ -36,12 +37,12 @@ class PrePro:
                     f_mean = f.mean()  # average
 
                     # use symmetry to set all values corresponding to this combination of (dx, dy, dz)
-                    self.integral[ix, iy, iz] = f_mean
-                    self.integral[ix, iz, iy] = f_mean
-                    self.integral[iy, ix, iz] = f_mean
-                    self.integral[iy, iz, ix] = f_mean
-                    self.integral[iz, ix, iy] = f_mean
-                    self.integral[iz, iy, ix] = f_mean
+                    self.integral_arr[ix, iy, iz] = f_mean
+                    self.integral_arr[ix, iz, iy] = f_mean
+                    self.integral_arr[iy, ix, iz] = f_mean
+                    self.integral_arr[iy, iz, ix] = f_mean
+                    self.integral_arr[iz, ix, iy] = f_mean
+                    self.integral_arr[iz, iy, ix] = f_mean
 
     def get_pos_lattice(self, filename):
         """
@@ -49,7 +50,7 @@ class PrePro:
             - expressed in the basis of lattice vectors
             - all atom coordinates are thus in the range [0, 1]
         """
-        pos = {atom: [] for atom in self.atom_list}
+        pos = {atom: [] for atom in self.list_atoms}
         lattice_vec = []
         with open(filename) as f:
             for line in f.readlines():
@@ -64,7 +65,7 @@ class PrePro:
         lattice_matrix[:, 0], lattice_matrix[:, 1], lattice_matrix[:,
                                                                    2] = lattice_vec[0], lattice_vec[1], lattice_vec[2]
 
-        pos_lattice = {atom: [] for atom in self.atom_list}
+        pos_lattice = {atom: [] for atom in self.list_atoms}
         for atom, pos_atom in pos.items():
             for posi in pos_atom:
                 pos_lattice[atom].append(np.linalg.solve(lattice_matrix, posi))
@@ -97,8 +98,8 @@ class PrePro:
                 - Finally convert to integral value for each pixel
         """
         x, y, z = pos[0], pos[1], pos[2]
-        nb = self.nb
-        b = self.b
+        nb = self.bin_num
+        b = self.bin_vec
 
         # cube generated from this position alone
         cube_pos = np.tile(np.nan, (nb, nb, nb))
@@ -119,7 +120,7 @@ class PrePro:
         idz = np.minimum(idz, 199)
 
         # assign the value of the integral for each pixel, depending on its indices of distance
-        cube_pos = self.integral[idx, idy, idz]
+        cube_pos = self.integral_arr[idx, idy, idz]
 
         return cube_pos
 
@@ -131,10 +132,10 @@ class PrePro:
                 - Finally generate cube with all these positions
                 - In the final cube, each atom type corresponds to a channel
         """
-        nb = self.nb
+        nb = self.bin_num
         pos_lat_atom = self.get_pos_lattice(filename)
 
-        cube_atom = {atom: np.zeros((nb, nb, nb)) for atom in self.atom_list}
+        cube_atom = {atom: np.zeros((nb, nb, nb)) for atom in self.list_atoms}
         for atom, pos_list in pos_lat_atom.items():
             # append shifted positions with periodic conditions
             pos_list = self.periodic_pos(pos_list)
@@ -143,7 +144,7 @@ class PrePro:
 
         # in the final cube, each atom type corresponds to a channel
         cube = np.zeros((nb, nb, nb, 4))
-        for iatom, atom in enumerate(self.atom_list):
+        for iatom, atom in enumerate(self.list_atoms):
             cube[:, :, :, iatom] = cube_atom[atom]
 
         return cube
