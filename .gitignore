@@ -131,3 +131,5 @@ dmypy.json
 
 nomad2018-predict-transparent-conductors/train_extrainfo.csv
 nomad2018-predict-transparent-conductors/test_extrainfo.csv
+nomad2018-predict-transparent-conductors/cube_PCA.npy
+nomad2018-predict-transparent-conductors/cube.npy
