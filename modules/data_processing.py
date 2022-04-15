@@ -39,7 +39,7 @@ def make_Xy():
     # print("-----",onehot_encoded)
     X = add_feat(X, onehot_encoded)
 
-    print(X)
+    print(X.shape)
 
     for col_name in ['percent_atom_in', 'percent_atom_ga', 'percent_atom_al']:
         X = add_feat(X, df[col_name]*df['number_of_total_atoms'])
@@ -51,7 +51,6 @@ def make_Xy():
                      'lattice_angle_gamma_degree', 'lattice_angle_beta_degree', 'lattice_angle_alpha_degree']:
         X = add_feat(X, df[col_name])
 
-    # TODO: not adding this for now
     for col_name in ['lattice_angle_gamma_degree', 'lattice_angle_beta_degree', 'lattice_angle_alpha_degree']:
         X = add_feat(X, np.cos(np.pi/180.0*df[col_name]))
     for col_name in ['lattice_angle_gamma_degree', 'lattice_angle_beta_degree', 'lattice_angle_alpha_degree']:
@@ -60,6 +59,7 @@ def make_Xy():
     # normalize X to be in a compatible range for the net at initilization
     X /= X.max(axis=0, keepdims=True)
 
+    print(X.shape)
     # construct y
     y = np.zeros((3000, 0))
     y = add_feat(y, df['formation_energy_ev_natom'])
