@@ -10,13 +10,7 @@ conda activate ml_project
 pip install -r requirements.txt
 ```
 
-> Run `visualization_dataprep.ipynb` to get `train_extrainfo.csv` and `test_extrainfo.csv` in the data folder. It's not commited as it's huge (600MB+). i/o examples are in the same file.
-
-## Notes
-
-- the magnitude of each vector (in the xyz file) is the `lattice_vector_1_ang` and so on. Magnitude refers to the vector length
-- the lattice vectors span the entire stuctures give, so they are a primitive unit of the crystal lattices they form
-
-## possible ideas
-
-- diff mol structures, same composition
+## Running instructions
+- Run the cells in the `cube_method.ipynb` notebook.
+- To try out other approaches, first Run `visualization_dataprep.ipynb` to get `train_extrainfo.csv` and `test_extrainfo.csv` in the data folder. It's not committed as it's huge (600MB+). i/o examples are in the same file.
+- Exploratory data analysis is in the `exploratoryanalysis.ipynb` notebook
