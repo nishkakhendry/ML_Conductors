@@ -11,6 +11,8 @@ pip install -r requirements.txt
 ```
 
 ## Running instructions
-- Run the cells in the `cube_method.ipynb` notebook.
-- To try out other approaches, first Run `visualization_dataprep.ipynb` to get `train_extrainfo.csv` and `test_extrainfo.csv` in the data folder. It's not committed as it's huge (600MB+). i/o examples are in the same file.
-- Exploratory data analysis is in the `exploratoryanalysis.ipynb` notebook
+- Exploratory data analysis can be found in the `exploratoryanalysis.ipynb` notebook
+- For the final chosen submission using XGBoost and the 3D cube representation, run `final_submission.ipynb`
+- To try out approach 1, first run `visualization_dataprep.ipynb` to get `train_extrainfo.csv` and `test_extrainfo.csv` in the data folder. It has not een included due to it' large size (600MB+). i/o examples are in the same file.
+- For approach 2, run the cells in the `cube_method.ipynb` notebook.
+
